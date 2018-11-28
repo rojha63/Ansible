@@ -1,0 +1,29 @@
+Ansible configuration 
+
+  pip install ansible 
+  id ansible version does not comes up by using ansible --version , then edit the epel.repo file and make all enable=0 to 1
+   use command vi /etc/epel.repos.d/epel.repo
+   
+   come out and use command yum install ansible . It will install all its dependencies and python packages 
+   
+   create a user and its password : useradd ansadmin
+                                     passwd ansadmin
+									  Now give admin previledge to user by editing the file  : visudo 
+									  
+	now use commnad :  cd /etc/ssh and  vi sshd_config 
+                       find /Passsword  in the file and make passwordauthentication yes 
+                       create one more entry of the same below and #passwordauthentication no 
+   repeate the same activity on the slave server 
+
+Now from master server , switch to new created user = su ansadmin 
+                          generate the keys    ssh-keygen 
+						  cd /.ssh
+						  ssh-copy-id <private ip of slave>
+						  
+ edit the ansible host file and add the slave serers in it 
+                           vi etc/ansible/host  and add the private ip of the slave 
+						   
+						ansible all -m ping
+						
+					create user :  ansible -s all -m user -a "name=tesrak  password=test123"
+				install package = ansible all -m yum -a "name-http state=latest"
